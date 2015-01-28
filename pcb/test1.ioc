@@ -1,5 +1,5 @@
 #MicroXplorer Configuration settings - do not modify
-#Tue Jan 27 21:40:30 WIB 2015
+#Wed Jan 28 20:07:23 WIB 2015
 File.Version=1
 KeepUserPlacement=true
 Mcu.Family=STM32F1
@@ -59,7 +59,7 @@ PB15.Signal=SPI2_MOSI
 PB2.Mode=Event-Out
 PB2.Signal=CORTEX_EVENT_OUT
 PB4.Signal=GPIO_Output
-PB5.Signal=GPIO_Input
+PB5.Signal=GPIO_Output
 PB6.Signal=GPIO_Output
 PB7.Signal=GPIO_Output
 PC10.Signal=GPIO_Output
