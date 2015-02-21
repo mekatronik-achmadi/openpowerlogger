@@ -1,0 +1,8 @@
+.
+../os/hal/include/
+../os/hal/platforms/STM32F1xx
+../os/kernel/include/
+../os/ports/GCC/ARMCMx/STM32F1xx/
+../os/various/
+../boards/OpenPM/
+../os/hal/platforms/STM32/GPIOv1
