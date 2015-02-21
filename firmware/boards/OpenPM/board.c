@@ -64,5 +64,6 @@ bool_t mmc_lld_is_write_protected(MMCDriver *mmcp) {
  * Board-specific initialization code.
  */
 void boardInit(void) {
-
+    //disable SWJ (JTAG) so PB3, PB4, PA13, PA14, PA15 can used as GPIO
+    AFIO->MAPR |= AFIO_MAPR_SWJ_CFG_DISABLE;
 }
