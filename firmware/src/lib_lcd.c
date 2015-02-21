@@ -2,23 +2,6 @@
 #include "hal.h"
 #include "lib_lcd.h"
 
-#define LCD_PIN_RS 10
-#define LCD_PIN_RW 11
-#define LCD_PIN_EN 12
-#define LCD_PORT_CRTL GPIOC
-
-#define LCD_PIN_D4 4
-#define LCD_PIN_D5 5
-#define LCD_PIN_D6 6
-#define LCD_PIN_D7 7
-#define LCD_PORT_DATA GPIOB
-
-#define LCD_PORT_MODE PAL_MODE_OUTPUT_PUSHPULL
-
-#define LCD_2X16_CGRAM_ADDR 0x40
-#define LCD_2X16_DDRAM_ADDR 0x80
-#define LCD_2X16_NEXT_LINE  0x40
-
 LcdStream myLCD;
 
 static msg_t put(void *ip, uint8_t chr) {
@@ -51,38 +34,35 @@ void Lcd_Pin_Dir(void){
 }
 
 void Lcd_Write_Data(uint8_t chr){
+    palWritePort(LCD_PORT_DATA,(chr & 0xf0));
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_RS);
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_RS);
+    chThdSleepMicroseconds(40);
 
-    GPIOB->ODR=(chr & 0x00F0);
-    GPIOC->ODR|=1<<LCD_PIN_RS;
-    GPIOC->ODR|=1<<LCD_PIN_EN;
-    chThdSleepMilliseconds(1);
-    GPIOC->ODR&=~(1<<LCD_PIN_RS);
-    GPIOC->ODR&=~(1<<LCD_PIN_EN);
-    chThdSleepMilliseconds(1);
-
-    GPIOB->ODR=((chr & 0x000F)<<4);
-    GPIOC->ODR|=1<<LCD_PIN_RS;
-    GPIOC->ODR|=1<<LCD_PIN_EN;
-    chThdSleepMilliseconds(1);
-    GPIOC->ODR&=~(1<<LCD_PIN_RS);
-    GPIOC->ODR&=~(1<<LCD_PIN_EN);
-    chThdSleepMilliseconds(1);
+    palWritePort(LCD_PORT_DATA,((chr & 0x0f)<<4));
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_RS);
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_RS);
+    chThdSleepMicroseconds(40);
 }
 
 void Lcd_Write_Command(uint8_t cmd){
+    palWritePort(LCD_PORT_DATA,(cmd & 0xf0));
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
 
-    GPIOB->ODR=(cmd & 0x00F0);
-    GPIOC->ODR|=1<<LCD_PIN_EN;
-    chThdSleepMilliseconds(1);
-    GPIOC->ODR&=~(1<<LCD_PIN_EN);
-    chThdSleepMilliseconds(1);
-
-    GPIOB->ODR=((cmd & 0x000F)<<4);
-    GPIOC->ODR|=1<<LCD_PIN_EN;
-    chThdSleepMilliseconds(1);
-    GPIOC->ODR&=~(1<<LCD_PIN_EN);
-    chThdSleepMilliseconds(1);
-
+    palWritePort(LCD_PORT_DATA,((cmd & 0x0f)<<4));
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMicroseconds(40);
 }
 
 void Lcd_Cursor(uint8_t column, uint8_t line){
@@ -100,23 +80,23 @@ void Lcd_Init(void){
     Lcd_Pin_Dir();
 
     chThdSleepMilliseconds(500);
-    GPIOB->ODR=0x00;
-    GPIOC->ODR=0x00;
+    palWritePort(LCD_PORT_CRTL,0x00);
+    palWritePort(LCD_PORT_DATA,0x00);
 
-    GPIOB->ODR=0x20;
-    GPIOC->ODR|=1<<LCD_PIN_EN;
-    chThdSleepMilliseconds(1);
-    GPIOC->ODR&=~(1<<LCD_PIN_EN);
-    chThdSleepMilliseconds(1);
+    palSetPad(LCD_PORT_DATA,LCD_PIN_D5);
+    palSetPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMilliseconds(40);
+    palClearPad(LCD_PORT_CRTL,LCD_PIN_EN);
+    chThdSleepMilliseconds(40);
 
     Lcd_Write_Command(0x28);
-    chThdSleepMilliseconds(1);
+    chThdSleepMicroseconds(40);
     Lcd_Write_Command(0x0c);
-    chThdSleepMilliseconds(1);
+    chThdSleepMicroseconds(40);
 
 }
 
 void Lcd_Clear (void){
     Lcd_Write_Command(0x01);
-    chThdSleepMilliseconds(1);
+    chThdSleepMicroseconds(40);
 }

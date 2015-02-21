@@ -55,23 +55,10 @@ int main(void) {
   palSetPadMode(GPIOA,8,PAL_MODE_OUTPUT_PUSHPULL);
   chThdCreateStatic(waRun, sizeof(waRun), NORMALPRIO, Run, NULL);
 
-//  Lcd_Init();
-//  Lcd_Clear();
-
-  palSetPadMode(GPIOC,10,PAL_MODE_OUTPUT_PUSHPULL);
-  palSetPadMode(GPIOC,11,PAL_MODE_OUTPUT_PUSHPULL);
-  palSetPadMode(GPIOC,12,PAL_MODE_OUTPUT_PUSHPULL);
-
-  palSetPadMode(GPIOB,4,PAL_MODE_OUTPUT_PUSHPULL);
-  palSetPadMode(GPIOB,5,PAL_MODE_OUTPUT_PUSHPULL);
-  palSetPadMode(GPIOB,6,PAL_MODE_OUTPUT_PUSHPULL);
-  palSetPadMode(GPIOB,7,PAL_MODE_OUTPUT_PUSHPULL);
-
-  palClearPad(GPIOB,4);
+  Lcd_Init();
+  Lcd_Clear();
 
   while (TRUE) {
-//      Test_Lcd();
-//      Lcd_Cursor(0,0);
-//      Lcd_Write_Data('A');
+      Test_Lcd();
   }
 }
