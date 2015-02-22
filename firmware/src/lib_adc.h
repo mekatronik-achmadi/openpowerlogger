@@ -25,6 +25,17 @@
 
 #define VALUE_FLOAT
 
+/**
+ * @brief   Float type support
+ * @brief   take from chprintf.c and chprintf.h
+ * @brief   include this header file in chprintf.h
+ */
+#if !defined(CHPRINTF_USE_FLOAT) || defined(__DOXYGEN__)
+#define CHPRINTF_USE_FLOAT          TRUE
+#endif
+#define MAX_FILLER 16
+#define FLOAT_PRECISION 10
+
 #define ADC_GRP1_NUM_CHANNELS   4
 #define ADC_GRP1_BUF_DEPTH      10
 

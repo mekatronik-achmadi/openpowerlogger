@@ -69,4 +69,9 @@ void Adc_Calc(){
     val_i0=(float) ((adc_i0-offset_i0)*calib_i0);
     val_v1=(float) ((adc_v1-offset_v1)*calib_v1);
     val_i1=(float) ((adc_i1-offset_i1)*calib_i1);
+
+//    val_v0=3.5;
+//    val_i0=2.7;
+//    val_v1=4.8;
+//    val_i1=2.9;
 }

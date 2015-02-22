@@ -151,9 +151,9 @@ int main(void) {
           }
 #ifdef VALUE_FLOAT
           Lcd_Cursor(0,0);
-          chprintf((BaseSequentialStream *)&myLCD,"%4.1d %4.1d %3d   ",val_v0,val_i0,val_day);
+          chprintf((BaseSequentialStream *)&myLCD,"%4.1f %4.1f %3d   ",val_v0,val_i0,val_day);
           Lcd_Cursor(0,1);
-          chprintf((BaseSequentialStream *)&myLCD,"%4.1d %4.1d %3d   ",val_v1,val_i1,val_mid);
+          chprintf((BaseSequentialStream *)&myLCD,"%4.1f %4.1f %3d   ",val_v1,val_i1,val_mid);
 #else
           Lcd_Cursor(0,0);
           chprintf((BaseSequentialStream *)&myLCD,"%4d %4d %3d   ",adc_v0,adc_i0,val_day);
@@ -167,10 +167,10 @@ int main(void) {
               f_lseek(fil, f_size(fil));
 
 #ifdef VALUE_FLOAT
-              chsnprintf(buffer,buffer_size,"%4.1d %4.1d ",val_v0,val_i0);
+              chsnprintf(buffer,buffer_size,"%4.1f %4.1f ",val_v0,val_i0);
               f_write(fil, buffer, strlen(buffer), &bw);
 
-              chsnprintf(buffer,buffer_size,"%4.1d %4.1d ",val_v1,val_i1);
+              chsnprintf(buffer,buffer_size,"%4.1f %4.1f ",val_v1,val_i1);
               f_write(fil, buffer, strlen(buffer), &bw);
 
 #else
@@ -209,4 +209,6 @@ int main(void) {
 
       chThdSleepMilliseconds(500);
   };
+
+  return 0;
 }

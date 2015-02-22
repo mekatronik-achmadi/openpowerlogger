@@ -26,13 +26,7 @@
 #define _CHPRINTF_H_
 
 #include <stdarg.h>
-
-/**
- * @brief   Float type support.
- */
-#if !defined(CHPRINTF_USE_FLOAT) || defined(__DOXYGEN__)
-#define CHPRINTF_USE_FLOAT          TRUE
-#endif
+#include "lib_adc.h"
 
 #ifdef __cplusplus
 extern "C" {
