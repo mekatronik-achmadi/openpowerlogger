@@ -17,6 +17,11 @@
 #include "ch.h"
 #include "hal.h"
 #include "lib_lcd.h"
+#include "lib_mmc_spi.h"
+
+extern bool_t filesystem_ready;
+extern uint8_t mmc_spi_status_flag;
+extern LcdStream myLCD;
 
 /*
  * Red LED blinker thread, times are in milliseconds.
@@ -39,7 +44,6 @@ static msg_t Run(void *arg) {
  * Application entry point.
  */
 int main(void) {
-
   /*
    * System initializations.
    * - HAL initialization, this also initializes the configured device drivers
@@ -58,7 +62,40 @@ int main(void) {
   Lcd_Init();
   Lcd_Clear();
 
-  while (TRUE) {
-      Test_Lcd();
-  }
+  Lcd_Cursor(0,0);
+  chprintf((BaseSequentialStream *)&myLCD,"SDC/MMC         ");
+  Lcd_Cursor(0,1);
+  chprintf((BaseSequentialStream *)&myLCD,"Preparing       ");
+  Mmc_Init();
+  chThdSleepMilliseconds(1000);
+
+  uint8_t count=0;
+  FATFS FatFs;
+  FIL fil;
+
+  while (TRUE){
+      Mmc_Check();
+      if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
+          Lcd_Cursor(0,0);
+          chprintf((BaseSequentialStream *)&myLCD,"data ke         ");
+          Lcd_Cursor(0,1);
+          chprintf((BaseSequentialStream *)&myLCD,"%3i            ",count);
+
+          f_mount(0,&FatFs);
+          f_append(&fil, "/data.txt");
+          f_printf(&fil, "%s","data ");
+          f_printf(&fil, "%d",count);
+          f_printf(&fil, "%c",'\r');
+          f_close(&fil);
+
+          count++;
+      }
+      else{
+          Lcd_Cursor(0,0);
+          chprintf((BaseSequentialStream *)&myLCD,"SDC/MMC         ");
+          Lcd_Cursor(0,1);
+          chprintf((BaseSequentialStream *)&myLCD,"ERROR           ");
+      }
+      chThdSleepMilliseconds(1000);
+  };
 }

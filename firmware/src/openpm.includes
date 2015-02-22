@@ -6,3 +6,4 @@
 ../os/various/
 ../boards/OpenPM/
 ../os/hal/platforms/STM32/GPIOv1
+../ext/fatfs/src

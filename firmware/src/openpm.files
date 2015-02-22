@@ -4,3 +4,6 @@ main.c
 mcuconf.h
 lib_lcd.c
 lib_lcd.h
+lib_mmc_spi.h
+lib_mmc_spi.c
+ffconf.h

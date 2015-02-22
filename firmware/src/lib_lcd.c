@@ -15,13 +15,6 @@ void lsObjectInit(LcdStream *msp) {
     msp->vmt = &vmt;
 }
 
-void Test_Lcd(void){
-    Lcd_Cursor(0,0);
-    chprintf((BaseSequentialStream *)&myLCD,"Salam Hore");
-    Lcd_Cursor(0,1);
-    chprintf((BaseSequentialStream *)&myLCD,"Pusing");
-}
-
 void Lcd_Pin_Dir(void){
     palSetPadMode(LCD_PORT_CRTL,LCD_PIN_RS,LCD_PORT_MODE);
     palSetPadMode(LCD_PORT_CRTL,LCD_PIN_RW,LCD_PORT_MODE);
@@ -75,7 +68,6 @@ void Lcd_Cursor(uint8_t column, uint8_t line){
 }
 
 void Lcd_Init(void){
-
     lsObjectInit(&myLCD);
     Lcd_Pin_Dir();
 
@@ -93,10 +85,17 @@ void Lcd_Init(void){
     chThdSleepMicroseconds(40);
     Lcd_Write_Command(0x0c);
     chThdSleepMicroseconds(40);
-
 }
 
 void Lcd_Clear (void){
     Lcd_Write_Command(0x01);
     chThdSleepMicroseconds(40);
+}
+
+void Lcd_Example(){
+    Lcd_Clear();
+    Lcd_Cursor(0,0);
+    chprintf((BaseSequentialStream *)&myLCD,"A-LCD");
+    Lcd_Cursor(0,1);
+    chprintf((BaseSequentialStream *)&myLCD,"Works");
 }

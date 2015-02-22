@@ -54,6 +54,6 @@ void Lcd_Write_Data(uint8_t chr);
 void Lcd_Init(void);
 void Lcd_Cursor(uint8_t column, uint8_t line);
 void Lcd_Clear (void);
-void Test_Lcd(void);
+void Lcd_Example (void);
 
 #endif // LIB_LCD_H
