@@ -28,39 +28,26 @@ void Mmc_Check(){
 
     if (mmcConnect(&MMCD1)) {
         filesystem_ready = TRUE;
-//          Lcd_Cursor(0,0);
-//          chprintf((BaseSequentialStream *)&myLCD,"%i",filesystem_ready);
     }
     else{
         err = f_mount(0, &MMC_FS);
         if (err == FR_OK){
             filesystem_ready = TRUE;
-//              Lcd_Cursor(0,0);
-//              chprintf((BaseSequentialStream *)&myLCD,"%i",filesystem_ready);
         }
         else{
-//              Lcd_Cursor(0,0);
-//              chprintf((BaseSequentialStream *)&myLCD,"%i",filesystem_ready);
         }
     }
 
     if (!filesystem_ready) {
         mmc_spi_status_flag=MMC_SPI_FAIL;
-//        Lcd_Cursor(0,1);
-//        chprintf((BaseSequentialStream *)&myLCD,"%i",mmc_spi_status_flag);
         return;
     }
 
     err = f_getfree("/", &clusters, &fsp);
     if (err != FR_OK) {
         mmc_spi_status_flag=MMC_SPI_ERROR;
-//        Lcd_Cursor(0,1);
-//        chprintf((BaseSequentialStream *)&myLCD,"%i",mmc_spi_status_flag);
         return;
     }
-
-//    Lcd_Cursor(0,1);
-//    chprintf((BaseSequentialStream *)&myLCD,"%i",mmc_spi_status_flag);
 
     chThdSleepMilliseconds(10);
 }
