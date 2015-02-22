@@ -6,9 +6,10 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "ch.h"
+#include "hal.h"
 #include "chprintf.h"
 #include "memstreams.h"
-#include "evtimer.h"
 #include "chstreams.h"
 #include "pal_lld.h"
 

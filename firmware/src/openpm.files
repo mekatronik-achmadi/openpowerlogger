@@ -7,3 +7,5 @@ lib_lcd.h
 lib_mmc_spi.h
 lib_mmc_spi.c
 ffconf.h
+lib_adc.h
+lib_adc.c

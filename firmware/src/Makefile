@@ -81,7 +81,7 @@ CSRC = $(PORTSRC) \
        $(CHIBIOS)/os/various/syscalls.c \
        $(CHIBIOS)/os/various/chprintf.c \
        $(CHIBIOS)/os/various/memstreams.c \
-       main.c lib_lcd.c lib_mmc_spi.c
+       main.c lib_lcd.c lib_mmc_spi.c lib_adc.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
