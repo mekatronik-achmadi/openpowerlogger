@@ -96,14 +96,32 @@ void Mmc_Init(){
 
 void Mmc_Example(){
     Mmc_Check();
+
+#if _USE_STRFUNC
+    FATFS FatFs;
+    FIL fil;
     if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
-        FATFS FatFs;
-        FIL fil;
         f_mount(0,&FatFs);
         f_append(&fil, "/text.txt");
-        f_printf(&fil, "%d", 1234);
-        f_printf(&fil, "%s", "string");
-        f_printf(&fil, "\n");
+        f_printf(&fil, "%5d", 1234);
+        f_printf(&fil,"String\n");
         f_close(&fil);
+        f_mount(0,NULL);
     }
+#else
+    char buffer[36];
+    FATFS FatFs;
+    UINT bw;
+    FIL *fil;
+    fil =(FIL *)malloc(sizeof (FIL));
+    if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
+        chsnprintf(buffer,36,"String\n\r");
+        f_mount(0,&FatFs);
+        f_open(fil, "/text.txt" , FA_WRITE | FA_OPEN_ALWAYS);
+        f_lseek(fil, f_size(fil));
+        f_write(fil, buffer, strlen(buffer), &bw);
+        f_close(fil);
+        f_mount(0,NULL);
+    }
+#endif
 }

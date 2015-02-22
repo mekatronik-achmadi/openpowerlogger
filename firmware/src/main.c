@@ -23,6 +23,7 @@ extern bool_t filesystem_ready;
 extern uint8_t mmc_spi_status_flag;
 extern LcdStream myLCD;
 
+bool_t hasHeader=FALSE;
 /*
  * Red LED blinker thread, times are in milliseconds.
  */
@@ -71,24 +72,47 @@ int main(void) {
 
   uint8_t count=0;
   FATFS FatFs;
-  FIL fil;
+  UINT bw;
+  FIL *fil;
+  fil =(FIL *)malloc(sizeof (FIL));
+
+  char buffer[36];
 
   while (TRUE){
       Mmc_Check();
       if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
-          Lcd_Cursor(0,0);
-          chprintf((BaseSequentialStream *)&myLCD,"data ke         ");
-          Lcd_Cursor(0,1);
-          chprintf((BaseSequentialStream *)&myLCD,"%3i            ",count);
+          if(hasHeader==FALSE){
+              Lcd_Cursor(0,0);
+              chprintf((BaseSequentialStream *)&myLCD,"data logging    ");
+              Lcd_Cursor(0,1);
+              chprintf((BaseSequentialStream *)&myLCD,"started         ");
 
-          f_mount(0,&FatFs);
-          f_append(&fil, "/data.txt");
-          f_printf(&fil, "%s","data ");
-          f_printf(&fil, "%d",count);
-          f_printf(&fil, "%c",'\r');
-          f_close(&fil);
+              chsnprintf(buffer,36,"Day Mid Volt Amp\n\r");
+              f_mount(0,&FatFs);
+              f_open(fil, "/ITS_power_monitor.log", FA_WRITE | FA_OPEN_ALWAYS);
+              f_lseek(fil, f_size(fil));
+              f_write(fil, buffer, strlen(buffer), &bw);
+              f_close(fil);
+              f_mount(0,NULL);
 
-          count++;
+              hasHeader=TRUE;
+          }
+          else{
+              Lcd_Cursor(0,0);
+              chprintf((BaseSequentialStream *)&myLCD,"data ke         ");
+              Lcd_Cursor(0,1);
+              chprintf((BaseSequentialStream *)&myLCD,"%3i            ",count);
+
+              chsnprintf(buffer,36,"%3d %3d %3d %3d\n",count,count,count,count);
+              f_mount(0,&FatFs);
+              f_open(fil, "/ITS_power_monitor.log", FA_WRITE | FA_OPEN_ALWAYS);
+              f_lseek(fil, f_size(fil));
+              f_write(fil, buffer, strlen(buffer), &bw);
+              f_close(fil);
+              f_mount(0,NULL);
+
+              count++;
+          }
       }
       else{
           Lcd_Cursor(0,0);
@@ -96,6 +120,6 @@ int main(void) {
           Lcd_Cursor(0,1);
           chprintf((BaseSequentialStream *)&myLCD,"ERROR           ");
       }
-      chThdSleepMilliseconds(1000);
+      chThdSleepMilliseconds(100);
   };
 }
