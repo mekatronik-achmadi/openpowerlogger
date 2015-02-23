@@ -6,6 +6,15 @@ adcsample_t adc_v0,adc_i0,adc_v1,adc_i1;
 uint32_t sum_adc_v0,sum_adc_i0,sum_adc_v1,sum_adc_i1;
 float val_v0,val_i0,val_v1,val_i1;
 
+/**
+ * @brief buat Offset
+ * @brief nilai disini adalah pengurang untuk nilai ADC berupa bilangan bulat antara 0 dan 4095
+ */
+adcsample_t offset_v0=0;
+adcsample_t offset_i0=0;
+adcsample_t offset_v1=0;
+adcsample_t offset_i1=0;
+
 void adccb(ADCDriver *adcp, adcsample_t *buffer, size_t n){
   (void) buffer; (void) n;
   int i;

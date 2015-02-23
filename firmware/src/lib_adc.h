@@ -23,15 +23,6 @@
 #define calib_i1 0.01
 
 /**
- * @brief buat Offset
- * @brief nilai disini adalah pengurang untuk nilai ADC berupa bilangan bulat antara 0 dan 4095
- */
-#define offset_v0 0
-#define offset_i0 0
-#define offset_v1 0
-#define offset_i1 0
-
-/**
  * @brief buat Testing
  * @brief jika ACCEL_TIME 1 maka selang waktu akan lebih cepat
  *        jika ACCEL_TIME 0 maka waktu berjalan normal
@@ -39,7 +30,7 @@
  *        jika VALUE_FLOAT 0 maka nilai mentah dari ADC
  */
 #define ACCEL_TIME 1
-#define VALUE_FLOAT 1
+#define VALUE_FLOAT 0
 
 /**
  * @brief   Float type support
