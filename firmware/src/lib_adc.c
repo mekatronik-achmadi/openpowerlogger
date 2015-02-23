@@ -78,25 +78,25 @@ void Adc_Calc(){
     if(adc_v0>=offset_v0){
         val_v0=(float) ((adc_v0-offset_v0)*calib_v0);
     }else{
-        val_v0=(float) ((offset_v0)*calib_v0);
+        val_v0=0;
     }
 
     if(adc_i0>=offset_i0){
         val_i0=(float) ((adc_i0-offset_i0)*calib_i0);
     }else{
-        val_i0=(float) ((offset_i0)*calib_i0);
+        val_i0=0;
     }
 
     if(adc_v1>=offset_v1){
         val_v1=(float) ((adc_v1-offset_v1)*calib_v1);
     }else{
-        val_v1=(float) ((offset_v1)*calib_v1);
+        val_v1=0;
     }
 
     if(adc_i1>=offset_i1){
         val_i1=(float) ((adc_i1-offset_i1)*calib_i1);
     }else{
-        val_i1=(float) ((offset_i1)*calib_i1);
+        val_i1=0;
     }
 
 }
