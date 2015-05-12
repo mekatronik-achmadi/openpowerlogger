@@ -87,7 +87,13 @@ int main(void) {
 
       Adc_Calc();
 
+#if OVERRIDE_MMC
+      filesystem_ready=TRUE;
+      mmc_spi_status_flag=MMC_SPI_OK;
+#else
       Mmc_Check();
+#endif
+
       if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
 
           if(hasHeader==FALSE){
@@ -119,6 +125,7 @@ int main(void) {
               chThdSleepMilliseconds(500);
               hasHeader=TRUE;
           }
+
 #if VALUE_FLOAT
           Lcd_Cursor(0,0);
           chprintf((BaseSequentialStream *)&myLCD,"%4.1f %4.1f %3d   ",val_v0,val_i0,val_day);

@@ -17,10 +17,10 @@
  * @brief buat Kalibrasi
  * @brief nilai disini adalah pengali untuk nilai ADC berupa bilangan pecahan antara 0 dan 1
  */
-#define calib_v0 0.01
-#define calib_i0 0.01
-#define calib_v1 0.01
-#define calib_i1 0.01
+#define calib_v0 0.0076
+#define calib_i0 0.000034
+#define calib_v1 0.0076
+#define calib_i1 0.000034
 
 /**
  * @brief buat Testing
@@ -28,9 +28,12 @@
  *        jika ACCEL_TIME 0 maka waktu berjalan normal
  * @brief jika VALUE_FLOAT 1 maka yang disimpan dan tampil adalah nilai float hasil kalibrasi,
  *        jika VALUE_FLOAT 0 maka nilai mentah dari ADC
+ * @brief jika OVERRIDE_MMC 1 maka mmc akan diabaikan
+ *        jika OVERRIDE_MMC 0 maka nilai akan disimpan dalam mmc
  */
-#define ACCEL_TIME 1
-#define VALUE_FLOAT 0
+#define ACCEL_TIME 0
+#define VALUE_FLOAT 1
+#define OVERRIDE_MMC 0
 
 /**
  * @brief   Float type support

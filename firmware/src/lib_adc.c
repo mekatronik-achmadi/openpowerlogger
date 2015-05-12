@@ -10,10 +10,10 @@ float val_v0,val_i0,val_v1,val_i1;
  * @brief buat Offset
  * @brief nilai disini adalah pengurang untuk nilai ADC berupa bilangan bulat antara 0 dan 4095
  */
-adcsample_t offset_v0=0;
-adcsample_t offset_i0=0;
-adcsample_t offset_v1=0;
-adcsample_t offset_i1=0;
+adcsample_t offset_v0=17;
+adcsample_t offset_i0=1170;
+adcsample_t offset_v1=17;
+adcsample_t offset_i1=1170;
 
 void adccb(ADCDriver *adcp, adcsample_t *buffer, size_t n){
   (void) buffer; (void) n;
