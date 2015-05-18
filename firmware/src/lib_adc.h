@@ -33,7 +33,7 @@
  */
 #define ACCEL_TIME 0
 #define VALUE_FLOAT 1
-#define OVERRIDE_MMC 0
+#define OVERRIDE_MMC 1
 
 /**
  * @brief   Float type support

@@ -107,13 +107,13 @@ int main(void) {
               f_open(fil, "/TF_ITS_power_monitor.log", FA_WRITE | FA_OPEN_ALWAYS);
               f_lseek(fil, f_size(fil));
 
-              chsnprintf(buffer,buffer_size,"Volt0 Amp0 ");
+              chsnprintf(buffer,buffer_size,"Volt0;Amp0;");
               f_write(fil, buffer, strlen(buffer), &bw);
 
-              chsnprintf(buffer,buffer_size,"Volt1 Amp1 ");
+              chsnprintf(buffer,buffer_size,"Volt1;Amp1;");
               f_write(fil, buffer, strlen(buffer), &bw);
 
-              chsnprintf(buffer,buffer_size,"Day Mid ");
+              chsnprintf(buffer,buffer_size,"Day;Mid");
               f_write(fil, buffer, strlen(buffer), &bw);
 
               chsnprintf(buffer,buffer_size,"\n");
@@ -144,20 +144,20 @@ int main(void) {
               f_lseek(fil, f_size(fil));
 
 #if VALUE_FLOAT
-              chsnprintf(buffer,buffer_size,"%4.1f %4.1f ",val_v0,val_i0);
+              chsnprintf(buffer,buffer_size,"%4.1f;%4.1f;",val_v0,val_i0);
               f_write(fil, buffer, strlen(buffer), &bw);
 
-              chsnprintf(buffer,buffer_size,"%4.1f %4.1f ",val_v1,val_i1);
+              chsnprintf(buffer,buffer_size,"%4.1f;%4.1f;",val_v1,val_i1);
               f_write(fil, buffer, strlen(buffer), &bw);
 
 #else
-              chsnprintf(buffer,buffer_size,"%4d %4d ",adc_v0,adc_i0);
+              chsnprintf(buffer,buffer_size,"%4d;%4d;",adc_v0,adc_i0);
               f_write(fil, buffer, strlen(buffer), &bw);
 
-              chsnprintf(buffer,buffer_size,"%4d %4d ",adc_v1,adc_i1);
+              chsnprintf(buffer,buffer_size,"%4d;%4d;",adc_v1,adc_i1);
               f_write(fil, buffer, strlen(buffer), &bw);
 #endif
-              chsnprintf(buffer,buffer_size,"%3d %3d ",val_day,val_mid);
+              chsnprintf(buffer,buffer_size,"%3d;%3d;",val_day,val_mid);
               f_write(fil, buffer, strlen(buffer), &bw);
 
               chsnprintf(buffer,buffer_size,"\n");
