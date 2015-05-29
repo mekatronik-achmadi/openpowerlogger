@@ -18,9 +18,16 @@
  * @brief nilai disini adalah pengali untuk nilai ADC berupa bilangan pecahan antara 0 dan 1
  */
 #define calib_v0 0.0076
-#define calib_i0 0.000034
+//#define calib_i0 0.000034
+#define calib_i0 0.018
+
 #define calib_v1 0.0076
-#define calib_i1 0.000034
+//#define calib_i1 0.000034
+#define calib_i1 0.018
+
+/**
+ * ===================================================
+ */
 
 /**
  * @brief buat Testing
@@ -33,7 +40,11 @@
  */
 #define ACCEL_TIME 0
 #define VALUE_FLOAT 1
-#define OVERRIDE_MMC 1
+#define OVERRIDE_MMC 0
+
+/**
+ * ===================================================
+ */
 
 /**
  * @brief   Float type support
@@ -44,10 +55,10 @@
 #define CHPRINTF_USE_FLOAT          TRUE
 #endif
 #define MAX_FILLER 16
-#define FLOAT_PRECISION 10
+#define FLOAT_PRECISION 100
 
 #define ADC_GRP1_NUM_CHANNELS   4
-#define ADC_GRP1_BUF_DEPTH      10
+#define ADC_GRP1_BUF_DEPTH      100
 
 void Adc_Init(void);
 void Adc_Calc(void);

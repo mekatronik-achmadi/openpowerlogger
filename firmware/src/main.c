@@ -38,19 +38,19 @@ void Welcome_Message(void){
     chprintf((BaseSequentialStream *)&myLCD,"Developed by:   ");
     Lcd_Cursor(0,1);
     chprintf((BaseSequentialStream *)&myLCD,"Jordy A W       ");
-    chThdSleepMilliseconds(500);
+    chThdSleepMilliseconds(250);
 
     Lcd_Cursor(0,0);
     chprintf((BaseSequentialStream *)&myLCD,"Developed by:   ");
     Lcd_Cursor(0,1);
     chprintf((BaseSequentialStream *)&myLCD,"Achmadi S.T.    ");
-    chThdSleepMilliseconds(500);
+    chThdSleepMilliseconds(250);
 
     Lcd_Cursor(0,0);
     chprintf((BaseSequentialStream *)&myLCD,"Developed by:   ");
     Lcd_Cursor(0,1);
     chprintf((BaseSequentialStream *)&myLCD,"TF ITS          ");
-    chThdSleepMilliseconds(500);
+    chThdSleepMilliseconds(250);
 }
 
 int main(void) {
@@ -65,7 +65,7 @@ int main(void) {
 
   Lcd_Init();
   Lcd_Clear();
-
+  
   Welcome_Message();
 
   Lcd_Cursor(0,0);
@@ -73,7 +73,7 @@ int main(void) {
   Lcd_Cursor(0,1);
   chprintf((BaseSequentialStream *)&myLCD,"Preparing       ");
   Mmc_Init();
-  chThdSleepMilliseconds(500);
+  chThdSleepMilliseconds(250);
 
   detik=0;
 
@@ -104,7 +104,7 @@ int main(void) {
               chprintf((BaseSequentialStream *)&myLCD,"started         ");
 
               f_mount(0,&FatFs);
-              f_open(fil, "/TF_ITS_power_monitor.log", FA_WRITE | FA_OPEN_ALWAYS);
+              f_open(fil, "/TF_ITS_power_monitor.csv", FA_WRITE | FA_OPEN_ALWAYS);
               f_lseek(fil, f_size(fil));
 
               chsnprintf(buffer,buffer_size,"Volt0;Amp0;");
@@ -128,9 +128,9 @@ int main(void) {
 
 #if VALUE_FLOAT
           Lcd_Cursor(0,0);
-          chprintf((BaseSequentialStream *)&myLCD,"%4.1f %4.1f %3d   ",val_v0,val_i0,val_day);
+          chprintf((BaseSequentialStream *)&myLCD,"%5.2f V %4.2f A  ",val_v0,val_i0);
           Lcd_Cursor(0,1);
-          chprintf((BaseSequentialStream *)&myLCD,"%4.1f %4.1f %3d   ",val_v1,val_i1,val_mid);
+          chprintf((BaseSequentialStream *)&myLCD,"%5.2f V %4.2f A  ",val_v1,val_i1);
 #else
           Lcd_Cursor(0,0);
           chprintf((BaseSequentialStream *)&myLCD,"%4d %4d %3d   ",adc_v0,adc_i0,val_day);
@@ -140,7 +140,7 @@ int main(void) {
           if(saving_flag){
 
               f_mount(0,&FatFs);
-              f_open(fil, "/TF_ITS_power_monitor.log", FA_WRITE | FA_OPEN_ALWAYS);
+              f_open(fil, "/TF_ITS_power_monitor.csv", FA_WRITE | FA_OPEN_ALWAYS);
               f_lseek(fil, f_size(fil));
 
 #if VALUE_FLOAT
@@ -165,7 +165,6 @@ int main(void) {
 
               f_close(fil);
               f_mount(0,NULL);
-
 
               saving_flag=FALSE;
           }
@@ -198,20 +197,33 @@ int main(void) {
           val_mid=0;
           val_day++;
       }
-      chThdSleepMicroseconds(100);
+      chThdSleepMilliseconds(1000);
 #else
       if(detik>60){
           detik=0;
           menit++;
       }
-      if(menit>30){
+//      if(menit>30){
+//          detik=0;
+//          menit=0;
+//          val_mid++;
+
+//          saving_flag=TRUE;
+//      }
+      if(menit>15){
           detik=0;
           menit=0;
           val_mid++;
 
           saving_flag=TRUE;
       }
-      if(val_mid>48){
+//      if(val_mid>48){
+//          detik=0;
+//          menit=0;
+//          val_mid=0;
+//          val_day++;
+//      }
+      if(val_mid>96){
           detik=0;
           menit=0;
           val_mid=0;
