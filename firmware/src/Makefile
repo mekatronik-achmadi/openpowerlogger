@@ -77,11 +77,12 @@ CSRC = $(PORTSRC) \
        $(PLATFORMSRC) \
        $(BOARDSRC) \
        $(FATFSSRC) \
-       $(CHIBIOS)/os/various/evtimer.c \
        $(CHIBIOS)/os/various/syscalls.c \
+       $(CHIBIOS)/os/various/evtimer.c \
+       $(CHIBIOS)/os/various/shell.c \
        $(CHIBIOS)/os/various/chprintf.c \
        $(CHIBIOS)/os/various/memstreams.c \
-       main.c lib_lcd.c lib_mmc_spi.c lib_adc.c
+       main.c lib_lcd.c lib_mmc_spi.c lib_adc.c lib_serial.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

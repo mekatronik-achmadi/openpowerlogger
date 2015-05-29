@@ -94,6 +94,10 @@ static void cmd_info(BaseSequentialStream *chp, int argc, char *argv[]) {
   chprintf(chp, "Build time:   %s%s%s\r\n", __DATE__, " - ", __TIME__);
 #endif
 #endif
+  chprintf(chp, "Developed by:\r\n");
+  chprintf(chp, "Achmadi S.T. - 0858-5256-6845\r\n");
+  chprintf(chp, "Jordy AW S.T - 0857-3096-8909\r\n");
+  chprintf(chp, "Arimaz H S.T. M.T. - 0856-3210-670\r\n");
 }
 
 static void cmd_systime(BaseSequentialStream *chp, int argc, char *argv[]) {
@@ -148,7 +152,7 @@ static msg_t shell_thread(void *p) {
   chRegSetThreadName("shell");
   chprintf(chp, "\r\nChibiOS/RT Shell\r\n");
   while (TRUE) {
-    chprintf(chp, "ch> ");
+    chprintf(chp, "achmadi> ");
     if (shellGetLine(chp, line, sizeof(line))) {
       chprintf(chp, "\r\nlogout");
       break;

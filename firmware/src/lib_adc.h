@@ -14,18 +14,6 @@
 #include "memstreams.h"
 
 /**
- * @brief buat Kalibrasi
- * @brief nilai disini adalah pengali untuk nilai ADC berupa bilangan pecahan antara 0 dan 1
- */
-#define calib_v0 0.0076
-//#define calib_i0 0.000034
-#define calib_i0 0.018
-
-#define calib_v1 0.0076
-//#define calib_i1 0.000034
-#define calib_i1 0.018
-
-/**
  * ===================================================
  */
 

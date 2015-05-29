@@ -1,7 +1,17 @@
 #include "lib_mmc_spi.h"
 #include "lib_lcd.h"
+#include "lib_adc.h"
+#include "lib_serial.h"
 
 extern LcdStream myLCD;
+
+extern adcsample_t offset_v0,offset_i0,offset_v1,offset_i1;
+extern adcsample_t calib_nom_v0,calib_nom_i0,calib_nom_v1,calib_nom_i1,calib_denom;
+
+extern uint8_t setting_session;
+
+bool_t saving_flag=FALSE;
+bool_t hasHeader=FALSE;
 
 bool_t filesystem_ready=TRUE;
 uint8_t mmc_spi_status_flag=MMC_SPI_OK;
@@ -53,8 +63,8 @@ void Mmc_Check(){
 }
 
 FRESULT f_append (
-    FIL* fp,            /* [OUT] File object to create */
-    const char* path    /* [IN]  File name to be opened */
+    FIL* fp,            /* [OUT] file object to create */
+    const char* path    /* [IN]  file name to be opened */
 )
 {
     FRESULT fr;
@@ -86,7 +96,7 @@ void Mmc_Example(){
 
 #if _USE_STRFUNC
     FATFS FatFs;
-    FIL fil;
+    fil fil;
     if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
         f_mount(0,&FatFs);
         f_append(&fil, "/text.txt");
@@ -110,5 +120,105 @@ void Mmc_Example(){
         f_close(fil);
         f_mount(0,NULL);
     }
+    free(fil);
 #endif
+}
+
+void Mmc_Reload(){
+    Mmc_Check();
+
+    adcsample_t value_zero=0;
+    char data_in[buffer_size];
+    FATFS FatFs;
+    UINT bw;
+    FIL *fil;
+    fil =(FIL *)malloc(sizeof (FIL));
+
+    if((filesystem_ready==TRUE)&&(mmc_spi_status_flag==MMC_SPI_OK)){
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/offset_v0", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        offset_v0=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/offset_i0", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        offset_i0=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/offset_v1", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        offset_v1=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/offset_i1", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        offset_i1=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/calib_nom_v0", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        calib_nom_v0=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/calib_nom_i0", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        calib_nom_i0=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/calib_nom_v1", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        calib_nom_v1=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+
+        f_mount(0,&FatFs);
+        f_open(fil, "/calib_nom_i1", FA_READ);
+        f_read(fil,data_in,strlen(data_in),&bw);
+        calib_nom_i1=atoi(data_in);
+        f_close(fil);
+        f_mount(0,NULL);
+        chsnprintf(data_in,buffer_size,"%4d",value_zero);
+        chThdSleepMicroseconds(100);
+    }
+
+    free(fil);
+
+    //Load default value if memory load if fail
+    if(offset_v0==0){offset_v0=20;}
+    if(offset_i0==0){offset_i0=3290;}
+    if(offset_v1==0){offset_v1=20;}
+    if(offset_i1==0){offset_i1=3280;}
+
+    if(calib_nom_v0==0){calib_nom_v0=76;}
+    if(calib_nom_i0==0){calib_nom_i0=180;}
+    if(calib_nom_v1==0){calib_nom_v1=76;}
+    if(calib_nom_i1==0){calib_nom_i1=180;}
 }

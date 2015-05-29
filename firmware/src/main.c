@@ -3,6 +3,7 @@
 #include "lib_lcd.h"
 #include "lib_mmc_spi.h"
 #include "lib_adc.h"
+#include "lib_serial.h"
 
 extern adcsample_t adc_v0,adc_i0,adc_v1,adc_i1;
 extern float val_v0,val_i0,val_v1,val_i1;
@@ -11,13 +12,13 @@ extern bool_t filesystem_ready;
 extern uint8_t mmc_spi_status_flag;
 extern LcdStream myLCD;
 
+extern uint8_t setting_session;
+
 uint16_t val_day=0,val_mid=0;
 uint8_t detik,menit;
-bool_t saving_flag=FALSE;
 
-#define buffer_size 16
-
-bool_t hasHeader=FALSE;
+extern bool_t saving_flag;
+extern bool_t hasHeader;
 
 static WORKING_AREA(waRun, 128);
 static msg_t Run(void *arg) {
@@ -63,6 +64,8 @@ int main(void) {
 
   Adc_Init();
 
+  Serial_Setup();
+
   Lcd_Init();
   Lcd_Clear();
   
@@ -75,6 +78,8 @@ int main(void) {
   Mmc_Init();
   chThdSleepMilliseconds(250);
 
+  Mmc_Reload();
+
   detik=0;
 
   FATFS FatFs;
@@ -86,6 +91,10 @@ int main(void) {
   while (TRUE){
 
       Adc_Calc();
+
+      Shell_Setup();
+
+      if(setting_session==0){
 
 #if OVERRIDE_MMC
       filesystem_ready=TRUE;
@@ -231,8 +240,8 @@ int main(void) {
       }
       chThdSleepMilliseconds(1000);
 #endif
-
+      }
   };
-
+  free(fil);
   return 0;
 }

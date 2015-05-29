@@ -10,13 +10,25 @@ float val_v0,val_i0,val_v1,val_i1;
  * @brief buat Offset
  * @brief nilai disini adalah pengurang untuk nilai ADC berupa bilangan bulat antara 0 dan 4095
  */
-adcsample_t offset_v0=20;
-//adcsample_t offset_i0=1170;
-adcsample_t offset_i0=3290;
+adcsample_t offset_v0;
+adcsample_t offset_i0;
 
-adcsample_t offset_v1=20;
-//adcsample_t offset_i1=1170;
-adcsample_t offset_i1=3280;
+adcsample_t offset_v1;
+adcsample_t offset_i1;
+
+/**
+ * @brief buat Kalibrasi
+ * @brief nilai disini adalah pengali untuk nilai ADC berupa bilangan pecahan antara 0 dan 1
+ */
+
+adcsample_t calib_nom_v0;
+adcsample_t calib_nom_i0;
+adcsample_t calib_nom_v1;
+adcsample_t calib_nom_i1;
+
+adcsample_t calib_denom=10000;
+
+float calib_v0,calib_i0,calib_v1,calib_i1;
 
 /**
  * ===================================================
@@ -81,6 +93,11 @@ void Adc_Init(){
 }
 
 void Adc_Calc(){
+
+    calib_v0=(float) calib_nom_v0/calib_denom;
+    calib_i0=(float) calib_nom_i0/calib_denom;
+    calib_v1=(float) calib_nom_v1/calib_denom;
+    calib_i1=(float) calib_nom_i1/calib_denom;
 
 //=========================================
 

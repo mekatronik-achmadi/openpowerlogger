@@ -9,3 +9,5 @@ lib_mmc_spi.c
 ffconf.h
 lib_adc.h
 lib_adc.c
+lib_serial.h
+lib_serial.c
